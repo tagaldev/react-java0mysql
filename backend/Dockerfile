@@ -2,20 +2,10 @@
 
 FROM --platform=$BUILDPLATFORM maven:3.8.5-eclipse-temurin-17 AS builder
 WORKDIR /workdir/server
-<<<<<<< HEAD
 COPY pom.xml /workdir/server/pom.xml
 RUN mvn dependency:go-offline
 
 COPY src /workdir/server/src
-=======
-
-# Copy only the pom.xml first to leverage Docker layer caching
-COPY backend/pom.xml /workdir/server/pom.xml
-RUN mvn dependency:go-offline
-
-# Copy the rest of the source code
-COPY backend/src /workdir/server/src
->>>>>>> Initial commit
 RUN mvn install
 
 FROM builder as dev-envs
@@ -47,8 +37,4 @@ ARG DEPENDENCY=/workdir/server/target/dependency
 COPY --from=prepare-production ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=prepare-production ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=prepare-production ${DEPENDENCY}/BOOT-INF/classes /app
-<<<<<<< HEAD
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.company.project.Application"]
-=======
-
->>>>>>> Initial commit
