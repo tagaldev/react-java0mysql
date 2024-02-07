@@ -14,7 +14,7 @@ jobs:
       - name: docker ps
         run: docker ps
       - name: test backend
-        run: curl localhost:80
+        run: curl localhost:3000
       - name: test frontend
         run: curl localhost:3000
         
