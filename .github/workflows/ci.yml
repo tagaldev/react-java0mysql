@@ -1,9 +1,9 @@
-name: ci
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: ci-test
+run-name: ci-test
 on:
   workflow_dispatch:
 jobs:
-  check-bats-version:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
