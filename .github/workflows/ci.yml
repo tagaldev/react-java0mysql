@@ -9,6 +9,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: build
         run: docker compose build --no-cache
+      - name: run containers
+        run: docker compose up --d
       - name: test backend
         run: curl localhost:80
       - name: test frontend
