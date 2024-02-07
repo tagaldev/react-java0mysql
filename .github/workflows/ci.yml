@@ -8,9 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: build
-        run: docker compose build --no-cache
+        run: docker compose build 
       - name: run containers
         run: docker compose up -d
+      - name: docker ps
+        run: docker ps
       - name: test backend
         run: curl localhost:80
       - name: test frontend
