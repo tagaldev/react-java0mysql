@@ -1,5 +1,5 @@
 name: ci
-run-name: ci
+run-name: ci-$(date +'%Y-%m-%d')
 on:
   workflow_dispatch:
 jobs:
