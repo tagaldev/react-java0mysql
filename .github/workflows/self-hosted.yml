@@ -8,6 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: build
-        run: echo 121212
-
+        run: echo 121212 << ./test.txt
+      - run: pwd
         
