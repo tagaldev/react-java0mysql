@@ -8,6 +8,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: build
-        run: echo 121212 << ./test.txt
-      - run: pwd
+        run: docker compose build 
+      - name: run containers
+        run: docker compose up -d
+      - name: docker ps
+        run: docker ps
+      - name: test frontend
+        run: sleep 10 && curl localhost:3000
+      - name: test backend
+        run: sleep 5 && curl localhost:88 -vvv
+      - run: docker compose down
         
