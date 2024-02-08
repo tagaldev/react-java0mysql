@@ -13,8 +13,8 @@ jobs:
         run: docker compose up -d
       - name: docker ps
         run: docker ps
-      - name: test backend
-        run: sleep 5 && curl localhost:3000
       - name: test frontend
-        run: sleep 5 && curl localhost:80
+        run: sleep 5 && curl localhost:3000
+      - name: test backend
+        run: sleep 5 && curl localhost:88 -vvv
         
