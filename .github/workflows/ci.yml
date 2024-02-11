@@ -16,5 +16,6 @@ jobs:
       - name: test frontend
         run: sleep 10 && curl localhost:3000
       - name: test backend
-        run: sleep 5 && curl localhost:88 -vvv
+        run: sleep 20 && curl localhost:88
+      - run: lsof -n -i -P | grep 88
         
