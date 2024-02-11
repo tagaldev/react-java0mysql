@@ -15,7 +15,8 @@ jobs:
         run: docker ps
       - name: test frontend
         run: sleep 10 && curl localhost:3000
-      - run: lsof -n -i -P | grep 88
+      - run: slepp 30 && lsof -n -i -P | grep 88
+      - run: lsof -n -i -P | grep 3000
       - name: test backend
-        run: sleep 60 && curl localhost:88
+        run: sleep 200 && curl localhost:88
         
