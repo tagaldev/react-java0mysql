@@ -6,6 +6,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+
+      - uses: actions/checkout@v3
+      - name: build
+        run: docker compose build 
+      - name: run containers
+        run: docker compose up -d
+      - name: docker ps
+        run: docker ps
+      - name: test frontend
+        run: sleep 10 && curl localhost:3000
       - shell: bash
         env:
           JFROG_USER: ${{ secrets.JFROG_USER }}
@@ -13,15 +23,6 @@ jobs:
         run: |
           docker image save react-java0mysql-frontend -o /tmp/react-java0mysql-frontend.tar
           curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://localhost:8082/artifactory/tagal/frontend/react-java0mysql-frontend.tar" -T /tmp/react-java0mysql-frontend.tar
-      # - uses: actions/checkout@v3
-      # - name: build
-      #   run: docker compose build 
-      # - name: run containers
-      #   run: docker compose up -d
-      # - name: docker ps
-      #   run: docker ps
-      # - name: test frontend
-      #   run: sleep 10 && curl localhost:3000
       
       
         
