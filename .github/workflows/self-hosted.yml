@@ -18,4 +18,14 @@ jobs:
       - name: test backend
         run: sleep 5 && curl localhost:88 -vvv
       - run: sudo docker compose down
+      - shell: bash
+        env:
+          JFROG_USER: ${{ secrets.JFROG_USER }}
+          JFROG_TOKEN: ${{ secrets.JFROG_token }}
+        run: |
+          docker image save react-java0mysql-frontend -o /tmp/react-java0mysql-frontend.tar
+          curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://18.194.209.103:8082/artifactory/tagal/frontend/react-java0mysql-frontend.tar" -T /tmp/react-java0mysql-frontend.tar
+      
+      
+        
         
