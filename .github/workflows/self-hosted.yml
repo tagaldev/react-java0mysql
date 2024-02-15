@@ -1,7 +1,11 @@
 name: self-hosted
 run-name: sh
 on:
-  workflow_dispatch:
+  workflow_dispatch: 
+  # push:
+  # pull_request:
+  #   branches:
+  #     - main
 jobs:
   test:
     runs-on: self-hosted
@@ -27,6 +31,6 @@ jobs:
         run: |
           echo $VERSION
           sudo docker image save react-java0mysql-frontend -o /tmp/react-java0mysql-frontend.tar
-          curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/frontend/frontend.tar" -T /tmp/react-java0mysql-frontend.tar
+          sudo curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/frontend/frontend.tar" -T /tmp/react-java0mysql-frontend.tar
           sudo docker image save react-java0mysql-backend -o /tmp/react-java0mysql-backend.tar
-          curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/backend/backend.tar" -T /tmp/react-java0mysql-backend.tar
+          sudo curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/backend/backend.tar" -T /tmp/react-java0mysql-backend.tar
