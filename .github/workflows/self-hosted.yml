@@ -33,5 +33,5 @@ jobs:
           sudo docker login -u$DOCKER_USER -p$DOCKER_TOKEN tagal.jfrog.io
           sudo docker tag react-java0mysql-frontend tagal.jfrog.io/tagal/fromtend:$VERSION
           sudo docker tag react-java0mysql-backend tagal.jfrog.io/tagal/backend:$VERSION
-          sudo docker push tagal.jfrog.io/tagal/fromtend:$VERSION
+          sudo docker push tagal.jfrog.io/tagal/frontend:$VERSION
           sudo docker push tagal.jfrog.io/tagal/backend:$VERSION
