@@ -37,13 +37,11 @@ jobs:
           sudo docker push tagal.jfrog.io/tagal/backend:$VERSION
       - name: Trigger ArgoCD Sync
         run: |
-          git clone https://github.com/tagaldev/eks-terraform.git
-          git config --global user.email "devopstagal@gmail.com"
-          git config --global user.name "tagaldev"
+          git@github.com:tagaldev/eks-terraform.git
           pwd
           cd eks-terraform
           sed -i "s|image: tagal.jfrog.io/tagal/frontend:*|image: tagal.jfrog.io/tagal/frontend:${{github.run_number}}|" react-java0mysql-main/yaml/backend-deployment.yaml
           sed -i "s|image: tagal.jfrog.io/tagal/backend:*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|" react-java0mysql-main/yaml/backend-deployment.yaml
           git add react-java0mysql-main/yaml/backend-deployment.yaml
           git commit -m "Trigger ArgoCD Sync"
-          git push https://${{ secrets.GH_PAT }}@/tagaldev/eks-terraform
+          git push origin main
