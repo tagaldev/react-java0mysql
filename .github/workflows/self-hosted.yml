@@ -41,7 +41,7 @@ jobs:
           pwd
           cd eks-terraform
           sed -i "s|image: tagal.jfrog.io/tagal/frontend:*|image: tagal.jfrog.io/tagal/frontend:${{github.run_number}}|" react-java0mysql-main/yaml/backend-deployment.yaml
-          sed -i "s|image: tagal.jfrog.io/tagal/backend:*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|" react-java0mysql-main/yaml/backend-deployment.yaml
+          sed -i "s|image: tagal.jfrog.io/tagal/backend:*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|" react-java0mysql-main/yaml/frontend-deployment.yaml
           git add react-java0mysql-main/yaml/backend-deployment.yaml
           git commit -m "Trigger ArgoCD Sync"
           git push origin main
