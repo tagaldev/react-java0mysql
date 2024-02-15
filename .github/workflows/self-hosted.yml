@@ -23,9 +23,9 @@ jobs:
         env:
           JFROG_USER: ${{ secrets.JFROG_USER }}
           JFROG_TOKEN: ${{ secrets.JFROG_token }}
-          NOW: $(date +'%Y-%m-%dT%H:%M:%S')
         run: |
+          version = $(date +'%Y-%m-%dT%H:%M:%S')
           docker image save react-java0mysql-frontend -o /tmp/react-java0mysql-frontend.tar
-          curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://18.194.209.103:8082/artifactory/tagal/final-project/frontend/frontend-$NOW.tar" -T /tmp/react-java0mysql-frontend.tar
+          curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/frontend/frontend-$version.tar" -T /tmp/react-java0mysql-frontend.tar
           docker image save react-java0mysql-backend -o /tmp/react-java0mysql-backend.tar
-          curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://18.194.209.103:8082/artifactory/tagal/final-project/backend/backend-$NOW.tar" -T /tmp/react-java0mysql-backend.tar
+          curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/backend/backend-$version.tar" -T /tmp/react-java0mysql-backend.tar
