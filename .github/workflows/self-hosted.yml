@@ -41,7 +41,7 @@ jobs:
           git config --global user.email "devopstagal@gmail.com"
           git config --global user.name "tagaldev"
           pwd
-          cd project_conf
+          cd eks-terraform
           sed -i "s|image: tagal.jfrog.io/tagal/frontend:*|image: tagal.jfrog.io/tagal/frontend:${{github.run_number}}|" react-java0mysql-main/yaml/backend-deployment.yaml
           sed -i "s|image: tagal.jfrog.io/tagal/backend:*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|" react-java0mysql-main/yaml/backend-deployment.yaml
           git add react-java0mysql-main/yaml/backend-deployment.yaml
