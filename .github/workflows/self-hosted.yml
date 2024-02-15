@@ -30,7 +30,12 @@ jobs:
           VERSION: ${{github.run_number}}
         run: |
           echo $VERSION
-          sudo docker image save react-java0mysql-frontend -o /tmp/react-java0mysql-frontend.tar
-          sudo curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/frontend/frontend.$VERSION.tar" -T /tmp/react-java0mysql-frontend.tar
-          sudo docker image save react-java0mysql-backend -o /tmp/react-java0mysql-backend.tar
-          sudo curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/backend/backend.$VERSION.tar" -T /tmp/react-java0mysql-backend.tar
+          # sudo docker image save react-java0mysql-frontend -o /tmp/react-java0mysql-frontend.tar
+          # sudo curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/frontend/frontend.$VERSION.tar" -T /tmp/react-java0mysql-frontend.tar
+          # sudo docker image save react-java0mysql-backend -o /tmp/react-java0mysql-backend.tar
+          # sudo curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://51.20.254.255:8082/artifactory/tagal/final-project/backend/backend.$VERSION.tar" -T /tmp/react-java0mysql-backend.tar
+          sudo docker login -u$DOCKER_USER -p$DOCKER_TOKEN tagal.jfrog.io
+          docker tag react-java0mysql-frontend tagal.jfrog.io/tagal/fromtend:$VERSION
+          docker tag react-java0mysql-backend tagal.jfrog.io/tagal/backend:$VERSION
+          docker push tagal.jfrog.io/tagal/fromtend:$VERSION
+          docker push tagal.jfrog.io/tagal/backend:$VERSION
