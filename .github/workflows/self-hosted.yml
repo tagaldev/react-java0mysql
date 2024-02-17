@@ -7,7 +7,7 @@ on:
   #   branches:
   #     - main
 jobs:
-  test:
+  ci:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
@@ -45,3 +45,16 @@ jobs:
           git add react-java0mysql-main/yaml/backend-deployment.yaml
           git commit -m "Trigger ArgoCD Sync"
           git push origin main
+          
+  notify:
+    needs:
+      - ci
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send failure notification
+        uses: cinotify/github-action@main
+        with:
+          to: ${{vars.EMAIL}}
+          subject: Workflow failed
+          body: The workflow failed, please check this on github actions
