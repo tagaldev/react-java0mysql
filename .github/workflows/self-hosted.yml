@@ -16,8 +16,6 @@ jobs:
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
         run: |
-          ls
-          pwd
           cd react-java0mysql
           rm -rf .env
           echo "MYSQL_DATABASE=$MYSQL_DATABASE" >> .env
