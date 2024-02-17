@@ -1,20 +1,28 @@
-name: ci-test
-run-name: ci-test
+name: ci
+run-name: "ci-$(date +'%Y-%m-%d')"
 on:
   workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v3
-      - uses: adambirds/docker-compose-action@v1.3.0
-        with:
-          compose-file: "./compose.yml"
-          test-container: "backend"
-          test-command: "curl localhost:80"
-    
-      - uses: adambirds/docker-compose-action@v1.3.0
-        with:
-          compose-file: "./compose.yml"
-          test-container: "frontend"
-          test-command: "curl localhost:3000"
+      - name: build
+        run: docker compose build 
+      - name: run containers
+        run: docker compose up -d
+      - name: docker ps
+        run: docker ps
+      - name: test frontend
+        run: sleep 10 && curl localhost:3000
+      - shell: bash
+        env:
+          JFROG_USER: ${{ secrets.JFROG_USER }}
+          JFROG_TOKEN: ${{ secrets.JFROG_token }}
+        run: |
+          docker image save react-java0mysql-frontend -o /tmp/react-java0mysql-frontend.tar
+          curl -u $JFROG_USER:$JFROG_TOKEN -X PUT "http://localhost:8082/artifactory/tagal/frontend/react-java0mysql-frontend.tar" -T /tmp/react-java0mysql-frontend.tar
+      
+      
+        

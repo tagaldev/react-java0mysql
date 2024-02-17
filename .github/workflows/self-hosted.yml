@@ -1,0 +1,59 @@
+name: self-hosted
+run-name: sh
+on:
+  workflow_dispatch: 
+  push:
+    branches:
+      - main
+jobs:
+  ci:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - name: build
+        run: sudo docker compose build 
+      - name: run containers
+        run:  sudo docker compose up -d
+      - name: docker ps
+        run: sudo docker ps
+      - name: test frontend
+        run: sleep 10 && curl localhost:3000
+      - name: test backend
+        run: sleep 5 && curl localhost:88
+      - run: sudo docker compose down
+      - shell: bash
+        name: push images to jfrog
+        env:
+          DOCKER_USER: ${{ secrets.docker_USER }}
+          DOCKER_TOKEN: ${{ secrets.docker_token }}
+          VERSION: ${{github.run_number}}
+        run: |
+          echo $VERSION
+          sudo docker login -u$DOCKER_USER -p$DOCKER_TOKEN tagal.jfrog.io
+          sudo docker tag react-java0mysql-frontend tagal.jfrog.io/tagal/frontend:$VERSION
+          sudo docker tag react-java0mysql-backend tagal.jfrog.io/tagal/backend:$VERSION
+          sudo docker push tagal.jfrog.io/tagal/frontend:$VERSION
+          sudo docker push tagal.jfrog.io/tagal/backend:$VERSION
+      - name: Trigger ArgoCD Sync
+        run: |
+          git clone git@github.com:tagaldev/eks-terraform.git
+          pwd
+          cd eks-terraform
+          sed -i "s|image: tagal.jfrog.io/tagal/frontend:*|image: tagal.jfrog.io/tagal/frontend:${{github.run_number}}|" react-java0mysql-main/yaml/frontend-deployment.yaml
+          sed -i "s|image: tagal.jfrog.io/tagal/backend:*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|" react-java0mysql-main/yaml/backend-deployment.yaml
+          git add react-java0mysql-main/yaml/backend-deployment.yaml
+          git commit -m "Trigger ArgoCD Sync"
+          git push origin main
+          
+  notify:
+    needs:
+      - ci
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send failure notification
+        uses: cinotify/github-action@main
+        with:
+          to: ${{vars.EMAIL}}
+          subject: Workflow failed
+          body: The workflow failed, please check this on github actions
