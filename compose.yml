@@ -34,6 +34,5 @@ services:
           - frontend
 volumes:
   mysqldb:
-  java-vol:
 networks:
   app-network:
