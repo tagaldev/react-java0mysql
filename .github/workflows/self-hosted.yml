@@ -43,6 +43,8 @@ jobs:
           sudo docker tag react-java0mysql-backend tagal.jfrog.io/tagal/backend:$VERSION
           sudo docker push tagal.jfrog.io/tagal/frontend:$VERSION
           sudo docker push tagal.jfrog.io/tagal/backend:$VERSION
+          sudo docker tag mysql:8.0.27 tagal.jfrog.io/tagal/db:$VERSION
+          sudo docker push tagal.jfrog.io/tagal/db:$VERSION
       - name: Trigger ArgoCD Sync
         run: |
           git clone git@github.com:tagaldev/eks-terraform.git
@@ -50,6 +52,7 @@ jobs:
           cd eks-terraform
           sed -i "s|image: tagal.jfrog.io/tagal/frontend:*.*|image: tagal.jfrog.io/tagal/frontend:${{github.run_number}}|g" manifest/app/frontend-deployment.yaml
           sed -i "s|image: tagal.jfrog.io/tagal/backend:*.*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|g" manifest/app/backend-deployment.yaml
+          sed -i "s|image: image:*.*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|g" manifest/app/db-deployment.yaml
           git add .
           git commit -m "Trigger ArgoCD Sync"
           git push origin main
