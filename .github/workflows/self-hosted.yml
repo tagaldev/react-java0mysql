@@ -52,7 +52,7 @@ jobs:
           cd eks-terraform
           sed -i "s|image: tagal.jfrog.io/tagal/frontend:*.*|image: tagal.jfrog.io/tagal/frontend:${{github.run_number}}|g" manifest/app/frontend-deployment.yaml
           sed -i "s|image: tagal.jfrog.io/tagal/backend:*.*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|g" manifest/app/backend-deployment.yaml
-          sed -i "s|image: image:*.*|image: tagal.jfrog.io/tagal/backend:${{github.run_number}}|g" manifest/app/db-deployment.yaml
+          sed -i "s|image: tagal.jfrog.io/tagal/db:*.*|image: tagal.jfrog.io/tagal/db:${{github.run_number}}|g" manifest/app/db-deployment.yaml
           git add .
           git commit -m "Trigger ArgoCD Sync"
           git push origin main
